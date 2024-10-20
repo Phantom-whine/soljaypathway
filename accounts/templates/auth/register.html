@@ -7,16 +7,63 @@
         <h2 class="text-2xl font-bold text-gray-800">Create an Account</h2>
     </div>
     
-    <form @submit.prevent="submitForm" method='post' action="{% url 'register' %}">
+    <form @submit.prevent="submitForm" method='post' action="{% url 'register' %}" id="register">
         {% csrf_token %}
         <div class="mb-4">
             <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-            <input type="email" id="email" name="email" x-model="email" @blur="checkEmail" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E.g. test@example.com" required>
+        </div>
+        <!-- Job Interest -->
+        <div class="mb-4">
+            <label for="job-interest" class="block text-gray-700 text-sm font-bold mb-2">Job Interest</label>
+            <input type="text" name="job_interest" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E.g. Nanny" required>
+        </div>
+        <!-- Country Selector -->
+        <div class="mb-4">
+            <label for="country" class="block text-gray-700 text-sm font-bold mb-2">Country of origin</label>
+            <select id="country" name="country" x-model="country" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <option value="">Select your country</option>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="United Kingdom">Mexico</option>
+                <option value="Australia">Australia</option>
+                <option value="India">India</option>
+                <option value="other">Others</option>
+            </select>
         </div>
 
-        <!-- Hidden input to send the tags -->
-        <input type="hidden" name="tags" :value="tags.join(',')" />
+        <div x-data="countrySelector()" class="mb-4">
+            <!-- Section Header -->
+            <h2 class="text-md font-bold mb-4">Select up to 5 Countries</h2>
         
+            <!-- Selected Countries -->
+            <div class="mb-4">
+              <template x-for="(country, index) in selectedCountries" :key="index">
+                <span class="bg-blue-200 text-blue-900 px-2 py-1 rounded-md mr-2 mb-2 inline-block font-bold">
+                  <span x-text="country"></span>
+                  <button @click="removeCountry(index)" class="ml-2 text-red-500">x</button>
+                </span>
+              </template>
+            </div>
+        
+            <!-- Dropdown for Countries -->
+            <div class="relative">
+              <select x-model="newCountry" :disabled="selectedCountries.length >= 5" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="" disabled>Select a country</option>
+                <template x-for="(country, index) in availableCountries" :key="index">
+                  <option :value="country" x-text="country"></option>
+                </template>
+              </select>
+            </div>
+            <input type="text" :value="selectedCountries.join(',')" x-show="false" name="country-of-choice">
+            <!-- Add Button -->
+            <div class="mt-4">
+              <button @click="addCountry()" class="px-2 py-1 bg-blue-500 text-white font-bold text-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" :disabled="newCountry === '' || selectedCountries.length >= 5">
+                Add Country
+              </button>
+            </div>
+          </div>
+
         <div class="mb-4">
             <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
             <input type="password" name="password" id="password" x-model="password" @input="checkPasswordStrength" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
@@ -100,32 +147,26 @@
                     alert('Please fix the errors before submitting.');
                     return;
                 }
+                document.querySelector('#register').submit();
             }
         }
     }
-</script>
-<script>
-    function registerForm() {
-        return {
-            newTag: '',
-            tags: [],
-            
-            addTag() {
-                if (this.newTag.trim() !== '' && !this.tags.includes(this.newTag.trim())) {
-                    this.tags.push(this.newTag.trim());
-                    this.newTag = '';  // Clear the input after adding the tag
-                }
-            },
-            
-            removeTag(index) {
-                this.tags.splice(index, 1);
-            },
-            
-            submitForm() {
-                // On form submission, tags will automatically be included as a comma-separated string
-                $el.closest('form').submit();
-            }
+    function countrySelector() {
+      return {
+        availableCountries: ['Nigeria', 'Kenya', 'South Africa', 'Ghana', 'Egypt', 'Tanzania', 'Uganda'],
+        selectedCountries: [],
+        newCountry: '',
+
+        addCountry() {
+          if (this.newCountry && this.selectedCountries.length < 5) {
+            this.selectedCountries.push(this.newCountry);
+            this.newCountry = '';
+          }
+        },
+        removeCountry(index) {
+          this.selectedCountries.splice(index, 1);
         }
+      }
     }
 </script>
 {% endblock %}
