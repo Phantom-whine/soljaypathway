@@ -10,6 +10,10 @@ def register_view(request) :
         post_data = request.POST
         email = post_data.get('email')
         password = post_data.get('password')
+        job_of_interest = post_data.get('job_interest')
+        country = post_data.get('country')
+        country_of_choice = post_data.get('country-of-choice')
+        phone = post_data.get('phone')
 
         test_user = authenticate(request, email=email, password=password)
 
@@ -17,6 +21,10 @@ def register_view(request) :
             return HttpResponse('Email has been used by you')
         else :
             user = User.objects.create_user(email=email, password=password)
+            user.phone = phone
+            user.country = country
+            user.country_of_choice = country_of_choice
+            user.country = country
             user.save()
             messages.error(request, 'Email has alredy been used')
             return redirect(reverse('login'))

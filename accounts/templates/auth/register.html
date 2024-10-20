@@ -18,6 +18,11 @@
             <label for="job-interest" class="block text-gray-700 text-sm font-bold mb-2">Job Interest</label>
             <input type="text" name="job_interest" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E.g. Nanny" required>
         </div>
+        <!-- Phone number -->
+        <div class="mb-4">
+            <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone</label>
+            <input type="number" name="phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E.g. Nanny" required>
+        </div>
         <!-- Country Selector -->
         <div class="mb-4">
             <label for="country" class="block text-gray-700 text-sm font-bold mb-2">Country of origin</label>
@@ -55,7 +60,7 @@
                 </template>
               </select>
             </div>
-            <input type="text" :value="selectedCountries.join(',')" x-show="false" name="country-of-choice">
+            <input type="text" :value="selectedCountries.join(',')" x-show="false" name="country-of-choice" style="display: none;">
             <!-- Add Button -->
             <div class="mt-4">
               <button @click="addCountry()" class="px-2 py-1 bg-blue-500 text-white font-bold text-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" :disabled="newCountry === '' || selectedCountries.length >= 5">

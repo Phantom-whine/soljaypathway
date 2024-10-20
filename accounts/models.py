@@ -7,6 +7,7 @@ class User(AbstractUser) :
     phone = models.CharField(max_length=10, unique=True)
     country = models.CharField(max_length=20)
     country_of_choice = models.CharField(max_length=250)
+    job_of_interest = models.CharField(max_length=250)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
