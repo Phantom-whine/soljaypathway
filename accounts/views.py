@@ -43,7 +43,7 @@ def login_view(request) :
         if user :
             if user.is_active == True :
                 login(request, user)
-                return redirect(reverse('home'))
+                return redirect(reverse('dashboard'))
             else :
                 messages.error(request, f'Account for {email} has been banned')
                 return redirect(reverse('login'))
@@ -57,4 +57,4 @@ def login_view(request) :
 
 def logout_view(request) :
     logout(request)
-    return redirect(reverse('home'))
+    return redirect(reverse('dashboard'))
