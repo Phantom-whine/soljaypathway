@@ -18,15 +18,16 @@ def register_view(request) :
         test_user = authenticate(request, email=email, password=password)
 
         if test_user :
-            return HttpResponse('Email has been used by you')
+            messages.error(request, f'Email {email} has already been used!')
+            return redirect(reverse('register'))
         else :
             user = User.objects.create_user(email=email, password=password)
             user.phone = phone
             user.country = country
             user.country_of_choice = country_of_choice
             user.country = country
+            user.job_of_interest = job_of_interest
             user.save()
-            messages.error(request, 'Email has alredy been used')
             return redirect(reverse('login'))
 
     else :
@@ -42,12 +43,18 @@ def login_view(request) :
         if user :
             if user.is_active == True :
                 login(request, user)
-                return HttpResponse(f'Logged in as {email}')
+                return redirect(reverse('home'))
             else :
-                return HttpResponse(f'Account for {email} has been banned')
+                messages.error(request, f'Account for {email} has been banned')
+                return redirect(reverse('login'))
 
         else :
-            return HttpResponse(f'Account for {email} does not exists')
+            messages.error(request, f'Incorrect Email or Password')
+            return redirect(reverse('login'))
 
     else :
         return render(request, 'auth/login.html')
+
+def logout_view(request) :
+    logout(request)
+    return redirect(reverse('home'))

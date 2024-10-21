@@ -21,19 +21,17 @@
         <!-- Phone number -->
         <div class="mb-4">
             <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone</label>
-            <input type="number" name="phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E.g. Nanny" required>
+            <input type="number" name="phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E.g. **-***-***" required>
         </div>
         <!-- Country Selector -->
         <div class="mb-4">
             <label for="country" class="block text-gray-700 text-sm font-bold mb-2">Country of origin</label>
             <select id="country" name="country" x-model="country" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                <option value="">Select your country</option>
-                <option value="United States">United States</option>
-                <option value="Canada">Canada</option>
-                <option value="United Kingdom">Mexico</option>
-                <option value="Australia">Australia</option>
-                <option value="India">India</option>
-                <option value="other">Others</option>
+                <option value="" disabled>Select your country</option>
+                <template x-for="country in countries">
+                    <option :value="country" x-text="country"></option>
+                </template>
+                
             </select>
         </div>
 
@@ -111,6 +109,7 @@
             confirmPassword: '',
             emailError: '',
             passwordStrength: 0,
+            countries: ['Australia', 'India', 'Nigeria', 'Kenya', 'United kingdom', 'Norway', 'Denmark'],
             
             checkPasswordStrength() {
                 const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");

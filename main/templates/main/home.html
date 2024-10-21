@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% block title %} SolJay Home {% endblock %}
+{% block content %} 
+<div class="ml-4 p-4">
+    <h1 class="font-bold text-md mb-2">Home page</h1>
+    {% if request.user.is_authenticated %}
+        <p class="font-bold text-2xl">HI {{ request.user.username }}!</p>
+        <a href="{% url 'logout' %}">
+            <button class="border bg-red-500 px-4 py-2 text-white font-bold hover:bg-red-600 mt-2 rounded-md">Logout</button>
+        </a>
+    {% else %}
+        <a href="{% url 'login' %}">
+            <button class="border bg-blue-500 px-4 py-2 text-white font-bold mr-[2px] rounded-md">Login</button>
+        </a>
+        <a href="{% url 'register' %}">
+            <button class="border bg-green-500 px-4 py-2 text-white font-bold rounded-md">Register</button>
+        </a>
+    {% endif %}
+</div>
+{% endblock %}
