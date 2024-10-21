@@ -14,6 +14,7 @@ class Job(models.Model) :
     price_for_application = models.PositiveIntegerField(default=0)
     amount_of_applicants = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(default=timezone.now)
+    country = models.CharField(max_length=20, null=True)
     job_type = models.CharField(
         max_length=20,
         choices=TYPE,

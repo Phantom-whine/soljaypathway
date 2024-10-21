@@ -162,6 +162,10 @@
         newCountry: '',
 
         addCountry() {
+          if(this.selectedCountries.indexOf(this.newCountry) != -1){
+            alert('Country already picked')
+            return;
+          }
           if (this.newCountry && this.selectedCountries.length < 5) {
             this.selectedCountries.push(this.newCountry);
             this.newCountry = '';
