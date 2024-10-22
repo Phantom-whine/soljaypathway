@@ -146,3 +146,5 @@ def about(request) :
 def contact(request) :
     return render(request, 'main/contact.html')
 
+@login_required(redirect_field_name='login')
+def job_applied_detail(request, id)

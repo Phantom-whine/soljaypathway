@@ -47,6 +47,7 @@ class Job(models.Model) :
         return reverse('job-detail', args=[self.id])
 
 class Applied(models.Model) :
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.OneToOneField(Job, on_delete=models.CASCADE)
     payed = models.BooleanField(default=False)
