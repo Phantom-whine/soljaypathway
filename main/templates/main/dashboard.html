@@ -1,52 +1,105 @@
 {% extends 'main/base.html' %}
-{% block title %} SolJay Dashboard {% endblock %}
-{% block content %} 
-<div class="ml-4 p-4">
-    <a href="{% url 'dashboard' %}"><h1 class="font-bold text-md mb-2">Dashboard</h1></a>
-    {% if request.user.is_authenticated %}
-        <p class="font-bold text-2xl">HI {{ request.user.username }}!</p>
-        <a href="{% url 'logout' %}">
-            <button class="border bg-red-500 px-4 py-2 text-white font-bold hover:bg-red-600 mt-2 rounded-md">Logout</button>
-        </a>
-        <form action="{% url 'dashboard' %}" method="get" class="mt-4 flex justify-center gap-2">
-            <input type="text" class="border p-[10px] rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500" name="q" placeholder="Search Jobs.." value="{{q}}" required>
-            <button class="bg-blue-400 hover:bg-blue-500 text-white transition py-[10px] px-4 rounded-md">search</button>
-        </form>
+{% block title %} SolJay™ | Dashboard {% endblock %}
 
+{% block content %}
+<form class="max-w-[90%] mx-auto mt-4" action="{% url 'dashboard' %}" method="get">
+    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+    <div class="relative">
+        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            </svg>
+        </div>
+        <input type="search" id="default-search"
+            class="outline-0 block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Search Jobs" name="q" required />
+        <button type="submit"
+            class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+    </div>
+</form>
+<!--Card section-->
+<!-- Main Content -->
+<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <!-- Job Cards Section (full width) -->
+    <div class="w-full grid gap-6 md:grid-cols-1 lg:grid-cols-1 mb-4">
+        <!-- Card 1 -->
         {% if q %}
-            <p class="font-bold mt-2">Search results for '{{q}}'</p>
+            <p class="font-bold">search results for '{{ q }}'</p>
+        {% endif %}
+        {% if jobs %}
+        {% for job in jobs %}
+        <div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col sm:flex-row">
+            <div class="flex-shrink-0">
+                <img src="{{ job.thumbnail.url }}" alt="Job Image" class="w-full object-cover" style="height: 300px;">
+            </div>
+            <div class="p-4 flex-grow">
+                <div class="flex items-center mb-3">
+                    <div class="bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-md">{{ job.country }}
+                    </div>
+                </div>
+                <h3 class="text-sm sm:text-lg font-bold text-green-600">Family in {{ job.country }}</h3>
+                <h4 class="text-sm sm:text-base text-gray-800 font-medium">{{ job.title }}</h4>
+                <ul class="text-sm text-gray-600 mt-2">
+                    <li>💵 {{ job.salary }} USD per month</li>
+                    <li>📅 {{ job.job_start }} ({{ job.time_of_stay }})</li>
+                    <li>👶 {{ job.children_info }}</li>
+                </ul>
+                <p class="text-sm sm:text-base text-gray-700 mt-3">{{ job.letter_to_applicant|truncatewords:30 }}</p>
+                <a href="{{ job.get_absolute_url }}">
+                    <button
+                        class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md mt-4 hover:bg-blue-600">View
+                        Listing</button>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Pagination Section -->
+        {% if jobs.paginator.num_pages > 1 %}
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-center items-center space-x-4">
+            <!-- Previous Button -->
+            {% if jobs.has_previous %}
+            <a href="?page={{ jobs.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+            class="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 5H1m0 0 4 4M1 5l4-4" />
+            </svg>
+            Previous
+        </a>
+        {% endif %}
+        {% if jobs.has_next %}
+            <a href="?page={{ jobs.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+                class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Next
+                <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 5h12m0 0L9 1m4 4L9 9" />
+                </svg>
+            </a>
+
+        </div>
+        {% endif %}
+        {% endif %}
+        {% else %}
+        <!-- No Jobs Available Section -->
+        <div class="max-w-7xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
+            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+                <h2 class="text-2xl font-semibold text-gray-800">No Jobs Available</h2>
+                <p class="mt-2 text-gray-600">Currently, there are no job listings available. Please check back later.
+                </p>
+                <p class="mt-4 text-gray-500">In the meantime, feel free to explore other sections or apply for job
+                    alerts.</p>
+                <button
+                    class="mt-6 bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">Back
+                    to Home</button>
+            </div>
+        </div>
         {% endif %}
 
-        {% if jobs %}
-        <div class="flex gap-4 justify-center flex-wrap mt-4">
-            {% for job in jobs %}
-                <div class="border {% if job.job_type == 'offer' %} bg-yellow-100 {% else %}bg-gray-100{% endif %} p-2 rounded-md shadow-md max-w-full md:max-w-[400px] w-full p-4">
-                    <div class="thumbnail relative">
-                        <img src="{{ job.image.url }}" class="w-full border rounded-md" style="height: 300px;">
-                        {% if job.job_type == 'offer' %}
-                            <div class="tag absolute rounded-md font-bold bg-yellow-300 w-[fit-content] px-2 top-0">OFFER</div>
-                        {% endif %}
-                    </div>
-                    <p class="text-1xl font-bold">{{ job.title }}</p>
-                    <div class="font-bold px-2 mt-[4px] bg-blue-200 rounded-full w-[fit-content] block">{{ job.country }}</div>
-                    <p class="mt-2">{{ job.description|truncatewords:10 }}</p>
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold w-full mt-2 py-2 rounded-md transition">checkout</button>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="flex justify-center">
-            <p class="text-2xl border px-6 py-2 mt-4 rounded-md md:w-[fit-content] w-full">No Jobs!</p>
-        </div>
-    {% endif %}
-    {% else %}
-        <a href="{% url 'login' %}">
-            <button class="border bg-blue-500 px-4 py-2 text-white font-bold mr-[2px] rounded-md">Login</button>
-        </a>
-        <a href="{% url 'register' %}">
-            <button class="border bg-green-500 px-4 py-2 text-white font-bold rounded-md">Register</button>
-        </a>
-        <p class="text-2xl text-center border mt-4 py-2 w-full md:w-[fit-content] px-4 rounded-md">Login to see available jobs</p>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}

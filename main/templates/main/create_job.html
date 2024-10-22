@@ -1,0 +1,143 @@
+{% extends 'main/base.html' %}
+{% block title %} SolJay™ | create Job {% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold mb-6">Create Job Listing</h1>
+
+    <form class="bg-white shadow-md rounded-lg p-6" enctype="multipart/form-data" method="post" action="{% url 'job-create' %}">
+        <!-- Enhanced Image Upload Section -->
+         {% csrf_token %}
+        <div class="mb-6">
+            <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">Upload Job Image</label>
+            <div class="upload-box" onclick="document.getElementById('image').click();">
+                <input type="file" id="image" name="image" accept="image/*" required class="hidden"
+                    onchange="previewImage(event)">
+                <span class="text-gray-500">Click to upload image</span>
+            </div>
+            <div class="mt-4" id="image-preview-container" style="display: none;">
+                <img id="image-preview" src="" alt="Image Preview" class="mt-2 border rounded-lg" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="title" class="block text-sm font-semibold text-gray-700">Job Title</label>
+                <input type="text" id="title" name="title" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="Enter job title">
+            </div>
+            <div>
+                <label for="country" class="block text-sm font-semibold text-gray-700">Country</label>
+                <input type="text" id="country" name="country" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="Enter country">
+            </div>
+            <div>
+                <label for="city" class="block text-sm font-semibold text-gray-700">City</label>
+                <input type="text" id="city" name="city" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="Enter city">
+            </div>
+            <div>
+                <label for="children_info" class="block text-sm font-semibold text-gray-700">Children
+                    Information</label>
+                <input type="text" id="children_info" name="children_info" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="Describe children's age">
+            </div>
+            <div>
+                <label for="job_type" class="block text-sm font-semibold text-gray-700">Job Type</label>
+                <input type="text" id="job_type" name="job_type" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="R.g Nanny">
+            </div>
+            <div>
+                <label for="job_start" class="block text-sm font-semibold text-gray-700">Job Start Date</label>
+                <input type="text" id="job_start" name="job_start" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="e.g. Aug 2024">
+            </div>
+            <div>
+                <label for="time_of_stay" class="block text-sm font-semibold text-gray-700">Time of Stay</label>
+                <input type="text" id="time_of_stay" name="time_of_stay" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="e.g. 10-12 months">
+            </div>
+            <div>
+                <label for="working_hours" class="block text-sm font-semibold text-gray-700">Working Hours</label>
+                <input type="text" id="working_hours" name="working_hours" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="e.g. 9 AM - 5 PM">
+            </div>
+            <div>
+                <label for="salary" class="block text-sm font-semibold text-gray-700">Salary (USD)</label>
+                <input type="number" id="salary" name="salary" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="Enter salary">
+            </div>
+            <div>
+                <label for="gender_required" class="block text-sm font-semibold text-gray-700">Gender Required</label>
+                <select id="gender_required" name="gender_required" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500">
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div>
+                <label for="has_pet" class="block text-sm font-semibold text-gray-700">Has Pets?</label>
+                <select id="has_pet" name="has_pet" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500">
+                    <option value="" disabled selected>Select option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div>
+                <label for="parent_age_group" class="block text-sm font-semibold text-gray-700">Parent Age Group</label>
+                <input type="text" id="parent_age_group" name="parent_age_group" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="e.g. 30-40 years">
+            </div>
+            <div class="col-span-1 md:col-span-2">
+                <label for="letter_to_applicant" class="block text-sm font-semibold text-gray-700">Letter to
+                    Applicant</label>
+                <textarea id="letter_to_applicant" name="letter_to_applicant" required rows="4"
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="Write a letter to the applicant..."></textarea>
+            </div>
+            <div class="col-span-1 md:col-span-2">
+                <label for="letter_to_applicant" class="block text-sm font-semibold text-gray-700">Job
+                    Description</label>
+                <textarea id="description" name="description" required rows="4"
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    placeholder="Write the Job description"></textarea>
+            </div>
+        </div>
+
+        <div class="mt-6 text-center">
+            <button type="submit"
+                class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">Create
+                Job Listing</button>
+        </div>
+    </form>
+</div>
+<script>
+    function previewImage(event) {
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        const imagePreview = document.getElementById('image-preview');
+
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreviewContainer.style.display = 'block'; // Show the preview
+            }
+            reader.readAsDataURL(file);
+        } else {
+            imagePreviewContainer.style.display = 'none'; // Hide the preview
+        }
+    }
+</script>
+{% endblock %}

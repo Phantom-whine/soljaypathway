@@ -1,26 +1,165 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" x-data="{ dropdownOpen: false }">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>{% block title %} {% endblock %}</title>
-    <style>
-        ::-webkit-scrollbar{
-          width: 10px;
-          background-color: #e8e8e8;
-        }
-        ::-webkit-scrollbar-thumb{
-          background-color: #808080;
-          border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:active{
-            background-color: #4e4e4e;
-        }
-      </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
+  <style>
+    ::-webkit-scrollbar {
+      width: 12px;
+      /* Width of the scrollbar */
+      height: 12px;
+      /* Height of the scrollbar (for horizontal) */
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      /* Track color */
+      border-radius: 10px;
+      /* Rounded corners */
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      /* Thumb color */
+      border-radius: 10px;
+      /* Rounded corners */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+      /* Thumb color on hover */
+    }
+
+    ::-webkit-scrollbar-corner {
+      background: #f1f1f1;
+      /* Corner background */
+    }
+
+    .upload-box {
+      border: 2px dashed #cbd5e1;
+      /* Tailwind's gray-300 */
+      border-radius: 0.375rem;
+      /* Tailwind's rounded-md */
+      padding: 1.5rem;
+      /* Tailwind's p-6 */
+      text-align: center;
+      /* Center text */
+      cursor: pointer;
+      /* Change cursor to pointer */
+      transition: background-color 0.2s ease;
+      /* Smooth transition for hover */
+    }
+
+    .upload-box:hover {
+      background-color: #f3f4f6;
+      /* Tailwind's gray-200 */
+    }
+
+    .dotted-border {
+      border: 2px dashed #4A90E2;
+      /* Dotted border color */
+    }
+  </style>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+      background-size: cover;
+      height: 420px;
+      position: relative;
+    }
+
+    .image-box {
+      margin-right: 20px;
+      /* Space between image and text */
+      margin-left: 10px;
+      /* Add left margin */
+      border-radius: 10px;
+      /* Rounded corners */
+      overflow: hidden;
+      /* To keep the image inside rounded corners */
+      width: 400px;
+      /* Set width as needed */
+      margin-top: 10px;
+      height: 400px;
+    }
+
+    @media screen and (max-width: 500px) {
+      .image-box {
+        width: 96%;
+        border-width: 1px;
+        height: 400px;
+        border: none;
+      }
+    }
+  </style>
+  <title>{% block title %} {% endblock %}</title>
 </head>
-<body>
-    {% block content %} {% endblock %}
+
+<body class="bg-gray-100">
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+          <a href="{% url 'dashboard' %}">
+            <img src="{% static 'images/logo.PNG' %}" alt="Logo" class="h-10 w-auto">
+          </a>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="relative z-50">
+          <button @click="dropdownOpen = !dropdownOpen" class="flex items-center space-x-2 text-gray-700">
+            <span class="font-semibold">{% if request.user.is_authenticated %}Hi {{ request.user.username }} {% else %}
+              Menu{% endif %}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div x-show="dropdownOpen" @click.outside="dropdownOpen = false"
+            class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2">
+            <a href="{% url 'dashboard' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Jobs</a>
+            <a href="{% url 'applied' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Applied Jobs</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+            {% if request.user.is_staff %}
+            <a href="{% url 'job-create' %}" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Create Job</a>
+            {% endif %}
+            <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-red-100">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  {% block content %} {% endblock %}
+  <!-- Footer -->
+
+
+  <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="/"
+          class="hover:underline">SolJay™</a>. All Rights Reserved.
+      </span>
+      <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        <li>
+          <a href="{% url 'about' %}" class="hover:underline me-4 md:me-6">About</a>
+        </li>
+        <li>
+          <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+        </li>
+        <li>
+          <a href="{% url 'contact' %}" class="hover:underline">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </footer>
 </body>
+
 </html>

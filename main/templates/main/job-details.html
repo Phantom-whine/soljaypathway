@@ -1,0 +1,87 @@
+{% extends 'main/base.html' %}
+{% block title %} SolJay™ | {{ job.title }} {% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="relative rounded-lg mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div class="flex flex-col md:flex-row overflow-hidden rounded-lg h-full">
+            <!-- Image Box with responsive sizing -->
+            <div class="md:w-1/3 w-full h-full md:h-auto">
+                <img src="{{ job.thumbnail.url }}" alt="Job Image" class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
+            </div>
+    
+            <!-- Card Content -->
+            <div class="flex-grow p-6 bg-white relative">
+                <!-- Country Label: Positioned at the top right -->
+                <div class="absolute top-4 right-4 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-md">
+                    {{ job.country }}
+                </div>
+    
+                <!-- Job Description -->
+                <div class="text-gray-700 mt-6">
+                    <p class="text-base leading-relaxed">
+                        {{ job.description }}
+                    </p>
+                </div>
+    
+                <!-- View More Jobs Button (bottom right of the card) -->
+                <div class="absolute bottom-4 right-4 hidden md:block">
+                    <a href="{% url 'dashboard' %}" class="bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300">
+                        View More Jobs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Job Title Card -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h2 class="text-3xl font-bold">{{ job.title }}</h2>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-50 rounded-lg p-4 shadow flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20h4v-4h4l-6-6-6 6h4v4z" />
+                </svg>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Job Details</h3>
+                    <p class="text-gray-700"><strong>Location:</strong> {{ job.city }}, {{ job.country }}</p>
+                    <p class="text-gray-700"><strong>Salary:</strong> ${{ job.salary }}/month</p>
+                    <p class="text-gray-700"><strong>Working Hours:</strong> {{ job.working_hours }}</p>
+                    <p class="text-gray-700"><strong>Job Start Date:</strong> {{ job.job_start }}</p>
+                    <p class="text-gray-700"><strong>Time of Stay:</strong> {{ job.time_of_stay }}</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-4 shadow flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m-6-8h6" />
+                </svg>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Additional Information</h3>
+                    <p class="text-gray-700"><strong>Children Info:</strong> {{ job.children_info }}</p>
+                    <p class="text-gray-700"><strong>Gender Required:</strong> {{ job.gender_required }}</p>
+                    <p class="text-gray-700"><strong>Parent Age Group:</strong> {{ job.age_group }}</p>
+                    <p class="text-gray-700"><strong>Has Pets:</strong> {{ job.has_pet }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-4 mt-6 shadow mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">Job Description</h3>
+            <p class="text-gray-700">{{ job.description }}</p>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-4 mt-6 shadow">
+            <h3 class="text-lg font-semibold text-gray-800">Letter to Applicant</h3>
+            <p class="text-gray-700">{{ job.letter_to_applicant }}</p>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-lg font-semibold text-gray-800">Apply for this job for just <span class="text-green-600">$50</span></p>
+            <a href="{% url 'apply' id %}">
+                <button class="mt-4 bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">Apply Now</button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+{% block title %} GO Back {% endblock %}
+{% block content %}
+<!-- Alert Card -->
+<div class="max-w-7xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
+    <div class="bg-yellow-100 border-l-4 border-yellow-500 rounded-lg shadow-lg p-6 bg-white">
+        <h2 class="text-lg font-bold text-yellow-800">You Have Already Applied for This Job!</h2>
+        <p class="mt-2 text-yellow-700">You have already submitted your application for this position. Please check the jobs you have applied for.</p>
+        <a href="{% url 'applied' %}" class="mt-4 inline-block bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">View Applied Jobs</a>
+    </div>
+</div>
+{% endblock %}

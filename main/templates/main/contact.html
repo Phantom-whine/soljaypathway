@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+{% block title %} SolJay™ | Contact {% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="bg-blue-500 text-white py-16">
+    <div class="max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl font-bold mb-2">Contact Us</h1>
+        <p class="text-lg">We'd love to hear from you!</p>
+    </div>
+</section>
+
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Contact Form -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Get in Touch</h2>
+            <form id="contact-form" onsubmit="return showModal(event)">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" required
+                        class="w-full border rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" required
+                        class="w-full border rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="block text-gray-700">Message</label>
+                    <textarea id="message" name="message" required rows="4"
+                        class="w-full border rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                <button type="submit"
+                    class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">Send
+                    Message</button>
+            </form>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Contact Information</h2>
+            <p class="text-gray-700 mb-2"><strong>Phone:</strong> (123) 456-7890</p>
+            <p class="text-gray-700 mb-2"><strong>Email:</strong> support@jobportal.com</p>
+            <p class="text-gray-700 mb-2"><strong>Address:</strong> 123 Job Lane, City, Country</p>
+
+            <h3 class="text-lg font-semibold mt-4">Follow Us</h3>
+            <div class="flex space-x-4 mt-2">
+                <a href="#" class="text-blue-500 hover:text-blue-600">Facebook</a>
+                <a href="#" class="text-blue-500 hover:text-blue-600">Twitter</a>
+                <a href="#" class="text-blue-500 hover:text-blue-600">Instagram</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+        <h2 class="text-xl font-bold mb-4">Message Sent!</h2>
+        <p class="text-gray-600">Thank you for your message. We will get back to you shortly.</p>
+        <div class="mt-6">
+            <button onclick="closeModal()"
+                class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showModal(event) {
+        event.preventDefault(); // Prevent the form from submitting
+        document.getElementById('modal').classList.remove('hidden'); // Show the modal
+        document.getElementById('contact-form').reset(); // Reset the form
+        return false; // Prevent the default form submission
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.add('hidden'); // Hide the modal
+    }
+</script>
+{% endblock %}

@@ -1,15 +1,12 @@
 from django.contrib import admin
-from .models import Job, A_Job
+from .models import Job, Applied
 
-@admin.register(Job) 
+@admin.register(Job)
 class JobAdmin(admin.ModelAdmin) :
-    list_display = ['title', 'price_for_application', 'job_type']
-    list_filter = ['job_type', 'price_for_application']
+    list_display = ['title', 'job_type', 'country', 'salary']
+    list_filter = ['job_type', 'country', 'gender_required']
     search_fields = ['title', 'description']
-    readonly_fields = ['amount_of_applicants']
 
-@admin.register(A_Job)
-class A_Job_Admin(admin.ModelAdmin) :
-    list_display = ['user', 'job', 'status']
-    list_filter = ['status']
-    search_fields = ['job']
+@admin.register(Applied)
+class A_admin(admin.ModelAdmin) :
+    list_display = ['first_name', 'last_name' ,'payed']

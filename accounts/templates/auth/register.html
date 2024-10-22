@@ -1,9 +1,10 @@
 {% extends "auth/base.html" %}
 {% block title %} Create an account {% endblock %}
+{% load static %}
 {% block content %}
 <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md md:max-w-[600px] mt-4 mb-9" x-data="registerForm()">
     <div class="text-center mb-8">
-        <img src="/api/placeholder/200/80" alt="Offerme" class="mx-auto mb-4">
+        <img src="{% static 'images/icon.png' %}" alt="Offerme" class="mx-auto mb-4 w-[70px]">
         <h2 class="text-2xl font-bold text-gray-800">Create an Account</h2>
     </div>
     
