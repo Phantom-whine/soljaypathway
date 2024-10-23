@@ -20,6 +20,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary_storage',
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +41,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Correctly added here
 ]
 
 ROOT_URLCONF = 'offerme.urls'
@@ -104,12 +107,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -120,5 +117,19 @@ AUTH_USER_MODEL = 'accounts.User'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_files')
 
-LEMONSQUEEZY_API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NGQ1OWNlZi1kYmI4LTRlYTUtYjE3OC1kMjU0MGZjZDY5MTkiLCJqdGkiOiJhMzg2YmJjM2I5MTZlYmY5YjJlNGNkNmVlODg4ZDIzMzA1YWE3NmUyNzg3MzRhMTNjY2ZlNjAyY2MyYTY2NGY4ZTllNzVmMWRjM2U3Y2U3MiIsImlhdCI6MTcyOTYwOTkzNC4zMjcwMDIsIm5iZiI6MTcyOTYwOTkzNC4zMjcwMDUsImV4cCI6MjA0NTE0MjczNC4yOTIyLCJzdWIiOiIxOTI4MDgxIiwic2NvcGVzIjpbXX0.TyjwOhQFXmZOPjCOTiRLYx-LQC5lqZ15skwTauZ2Pm3W-bHLuCr17uj4vIQQY4TGxeA-AX6snM7Pxkn6dYydLa_Kqn-ljy6nuWukGDBbygm5xsdksojxmrnudI7vBWcLelQ1kdaV_SLj2djnvchmk_NXG2zqI4h1mVD91GlBeXFlzSmbztxIyTJyn_wWfHy_93VslqD-9d92Xwzk77COnZWZuhvW8FkeS4Gr-22V8YJP_Wo7aAYSwrTXXjD-RBcP3rdQhHAC_R9iesfv2V7dmyDA-MlE-dev5GX4Gi6Agjuf3_IxSJ7DlwqVySXNAMsxYFTiXbY7UjrZUMXzW19ok7Sq5Hq0Kq21Klsi78oN2zUd8ZW1fzkgUYtK6E2NOAIH4aIHSM1Ke_WLa7V8BMX_k_gtIR21AMF8qPd5aOl4WgBSB5LZzAMPXve1KFcMxfGpI-YOTNXzpb0728CJOhdBnq94q51IvcrmCSih66JeNKLSd2qHQ1QUHIjm8WstOG1T'
 SESSION_SAVE_EVERY_REQUEST = True
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dxybkeltx',
+    'API_KEY': '318156341523456',
+    'API_SECRET': 'NwrwmfRJl2n4-slTiVA3uHm4GJg',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+STATIC_URL = '/static/'
+
+# Define where collectstatic will collect your static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Enable WhiteNoise compression and caching
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

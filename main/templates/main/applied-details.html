@@ -24,14 +24,14 @@
             <div class="col-span-2">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6">Job Details</h2>
                 <div class="bg-blue-50 p-6 rounded-lg shadow-md mb-6">
-                    <h3 class="text-xl font-semibold text-blue-600">{{ job.job.job_type }} in {{ job.job.city }}, {{ job.job.country }}</h3>
+                    <h3 class="text-xl font-semibold text-blue-600">{{ job.job.job_type|title }} in {{ job.job.city }}, {{ job.job.country }}</h3>
                     <p class="text-gray-700 mt-2">{{ job.job.title }}</p>
                     <div class="flex flex-wrap mt-4">
                         <div class="w-full md:w-1/2">
                             <p class="text-gray-700 font-semibold">Salary: <span class="text-green-600">${{ job.job.salary }} USD/month</span></p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-700 font-semibold">Date of Application: <span class="text-gray-600">{{ job.date }}</span></p>
+                            <p class="text-gray-700 font-semibold">Date of Application: <span class="text-gray-600">{{ job.date|date:'j F, Y' }}</span></p>
                         </div>
                     </div>
                 </div>
