@@ -8,6 +8,7 @@ class User(AbstractUser) :
     country = models.CharField(max_length=250)
     country_of_choice = models.CharField(max_length=250)
     job_of_interest = models.CharField(max_length=250)
+    permit = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

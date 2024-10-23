@@ -1,0 +1,114 @@
+{% extends 'main/base.html' %}
+{% block title %} SolJay™ | {{ job.job.title }} {% endblock %}
+{% block content %}
+<!-- Main Container -->
+<div class="max-w-7xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow-md rounded-lg p-6">
+
+        <!-- Job Information Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- CV Image -->
+            <div class="col-span-1">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Applicant Details</h2>
+                <div class="space-y-6">
+                    <!-- CV Image -->
+                    <div class="relative">
+                        <img @click="showModal = true; imageSrc = '{{ job.cv_image.url }}'" class="w-full h-64 object-cover rounded-lg shadow-md border-4 border-dotted border-gray-200 cursor-pointer" src="{{ job.cv_image.url }}" alt="CV Image">
+                        <div class="absolute inset-x-0 bottom-0 bg-gray-900 bg-opacity-75 text-white text-center py-2 rounded-b-lg">CV Image (click to enlarge)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Details -->
+            <div class="col-span-2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Job Details</h2>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md mb-6">
+                    <h3 class="text-xl font-semibold text-blue-600">{{ job.job.job_type }} in {{ job.job.city }}, {{ job.job.country }}</h3>
+                    <p class="text-gray-700 mt-2">{{ job.job.title }}</p>
+                    <div class="flex flex-wrap mt-4">
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-700 font-semibold">Salary: <span class="text-green-600">${{ job.job.salary }} USD/month</span></p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-700 font-semibold">Date of Application: <span class="text-gray-600">{{ job.date }}</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                {% if not job.payed %}
+                <!-- Payment Info Box (if not paid) -->
+                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500 mb-6">
+                    <h3 class="text-red-600 font-semibold">Payment Required</h3>
+                    <p class="text-gray-700 mt-2">You have not completed your payment for this job application. Please proceed to payment to finalize your application.</p>
+                </div>
+                {% endif %}
+
+                <!-- User Information Section -->
+                <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Application Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                            <p class="text-gray-700 font-semibold">First Name: <span class="text-gray-600">{{ job.first_name }}</span></p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                            <p class="text-gray-700 font-semibold">Last Name: <span class="text-gray-600">{{ job.last_name }}</span></p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg shadow-sm col-span-1 md:col-span-2">
+                            <p class="text-gray-700 font-semibold">Additional Info: <span class="text-gray-600">{{ job.info }}</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                {% if not payed %}
+                <!-- Payment Section -->
+                <div class="mt-6">
+                    <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md mt-4 hover:bg-blue-700 transition duration-200">Proceed to Payment</button>
+                </div>
+                {% endif %}
+                <div class="mt-6">
+                    <button @click="open = true" class="bg-red-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-600">
+                        Discard Application request
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal Component -->
+<div>
+    <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-transition>
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center" @click.away="open = false" x-transition>
+            <h2 class="text-lg font-bold text-gray-800">Are you sure?</h2>
+            <p class="text-gray-600 mt-2">Do you really want to delete this item? This action cannot be undone.</p>
+
+            <!-- Buttons -->
+            <div class="mt-4 flex justify-center space-x-4">
+                <button @click="open = false" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-md hover:bg-gray-400">
+                    Cancel
+                </button>
+                <a href="{% url 'delete-app' id %}">
+                    <button class="bg-red-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-600">
+                        Yes, Delete
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Fullscreen Image -->
+<div x-show="showModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50" x-cloak>
+    <div class="relative">
+        <!-- Fullscreen Image -->
+        <img :src="imageSrc" class="fullscreen-img rounded-lg shadow-lg" alt="Fullscreen Image">
+
+        <!-- Close Button -->
+        <button @click="showModal = false" class="absolute top-4 right-4 bg-white text-gray-800 rounded-full p-2 shadow-lg hover:bg-gray-100 focus:outline-none">
+            &times;
+        </button>
+    </div>
+</div>
+{% endblock %}

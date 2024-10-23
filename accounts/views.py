@@ -28,6 +28,7 @@ def register_view(request) :
             user.country = country
             user.job_of_interest = job_of_interest
             user.save()
+            messages.success(request, f'Account for {email} created succesfully')
             return redirect(reverse('login'))
 
     else :
@@ -42,6 +43,7 @@ def login_view(request) :
         user = authenticate(request, email=email, password=password)
         if user :
             if user.is_active == True :
+                messages.success(request, f'Logged in as {email}.')
                 login(request, user)
                 return redirect(reverse('dashboard'))
             else :
@@ -57,4 +59,5 @@ def login_view(request) :
 
 def logout_view(request) :
     logout(request)
-    return redirect(reverse('dashboard'))
+    messages.info(request, 'Logged out!')
+    return redirect(reverse('home'))

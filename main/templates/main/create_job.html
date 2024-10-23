@@ -1,12 +1,21 @@
 {% extends 'main/base.html' %}
 {% block title %} SolJay™ | create Job {% endblock %}
+{% block head %}
+<!-- Include Froala CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/4.0.13/css/froala_editor.pkgd.min.css"
+    rel="stylesheet" />
+
+<!-- Include Froala JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/4.0.13/js/froala_editor.pkgd.min.js"></script>
+{% endblock %}
 {% block content %}
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-bold mb-6">Create Job Listing</h1>
 
-    <form class="bg-white shadow-md rounded-lg p-6" enctype="multipart/form-data" method="post" action="{% url 'job-create' %}">
+    <form class="bg-white shadow-md rounded-lg p-6" enctype="multipart/form-data" method="post"
+        action="{% url 'job-create' %}">
         <!-- Enhanced Image Upload Section -->
-         {% csrf_token %}
+        {% csrf_token %}
         <div class="mb-6">
             <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">Upload Job Image</label>
             <div class="upload-box" onclick="document.getElementById('image').click();">
@@ -106,12 +115,14 @@
                     class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
                     placeholder="Write a letter to the applicant..."></textarea>
             </div>
-            <div class="col-span-1 md:col-span-2">
+            <input id="content" name="description" style="display: none;">
+            <div class="col-span-1 md:col-span-2 h-[30%]">
                 <label for="letter_to_applicant" class="block text-sm font-semibold text-gray-700">Job
                     Description</label>
-                <textarea id="description" name="description" required rows="4"
-                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
-                    placeholder="Write the Job description"></textarea>
+                
+                <div id="froala-editor"
+                    class=" mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500">
+                    Job description</div>
             </div>
         </div>
 
@@ -130,7 +141,7 @@
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 imagePreview.src = e.target.result;
                 imagePreviewContainer.style.display = 'block'; // Show the preview
             }
@@ -139,5 +150,21 @@
             imagePreviewContainer.style.display = 'none'; // Hide the preview
         }
     }
+    new FroalaEditor('#froala-editor', {
+        events: {
+            toolbarButtons: [
+                'bold', 'italic', 'underline', 'strikeThrough', 'fontFamily', 'fontSize',
+                'color', 'inlineStyle', 'paragraphFormat', 'align', 'formatOL', 'formatUL',
+                'outdent', 'indent', 'insertHR', 'clearFormatting', 'insertLink', 'insertTable',
+                'insertSpecialCharacters', 'quote', 'html' // Exclude image/file upload buttons
+            ],
+            imageUploadURL: null,  // Disable image upload
+            fileUploadURL: null,   // Disable file upload
+            'contentChanged': function () {
+                // Sync content with the hidden input
+                document.getElementById('content').value = this.html.get();
+            }
+        }
+    });
 </script>
 {% endblock %}

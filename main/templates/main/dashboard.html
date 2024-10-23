@@ -30,7 +30,7 @@
         {% endif %}
         {% if jobs %}
         {% for job in jobs %}
-        <div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col sm:flex-row">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col sm:flex-row hover:shadow-xl transition">
             <div class="flex-shrink-0">
                 <img src="{{ job.thumbnail.url }}" alt="Job Image" class="w-full object-cover" style="height: 300px;">
             </div>
@@ -49,7 +49,7 @@
                 <p class="text-sm sm:text-base text-gray-700 mt-3">{{ job.letter_to_applicant|truncatewords:30 }}</p>
                 <a href="{{ job.get_absolute_url }}">
                     <button
-                        class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md mt-4 hover:bg-blue-600">View
+                        class="animate-btn bg-blue-500 text-white font-semibold py-2 px-8 rounded-md mt-4 hover:bg-blue-600">View
                         Listing</button>
                 </a>
             </div>

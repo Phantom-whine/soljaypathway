@@ -3,6 +3,8 @@ from .models import Job, Applied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.contrib import messages
+from .decorators import check_payment
 
 @login_required(redirect_field_name='login')
 def dashboard_view(request) :
@@ -73,16 +75,19 @@ def job_create(request) :
         )
 
         new_job.save()
+        messages.info(request, 'Job listing created.')
         return redirect(reverse('dashboard'))
     else :
         return render(request, 'main/create_job.html')
 
 @login_required(redirect_field_name='login')
+@check_payment
 def job_detail(request, id) :
     job = get_object_or_404(Job, id=id)
     return render(request, 'main/job-details.html', {'job':job, 'id': id})
 
 @login_required(redirect_field_name='login')
+@check_payment
 def apply(request, id) :
     job = get_object_or_404(Job, id=id)
     if request.method == 'POST' :
@@ -105,7 +110,9 @@ def apply(request, id) :
         )
 
         new_application.save()
-        return redirect('https://soljay.lemonsqueezy.com/buy/256aa511-235a-42c0-8d58-ebe5ab6f1668')
+        # return redirect('https://soljay.lemonsqueezy.com/buy/256aa511-235a-42c0-8d58-ebe5ab6f1668')
+        messages.success(request, 'Job application submitted!')
+        return redirect(reverse('applied'))
     else :
         if Applied.objects.filter(user=request.user, job=job) :
             return render(request, 'main/already.html')
@@ -118,7 +125,7 @@ def applied_jobs(request) :
     if request.user.is_authenticated :
         query = request.GET.get('q', None)
         jobs = None
-        if request.user.is_staff != True :
+        if request.user.is_staff == True :
             jobs = Applied.objects.all()
         else :
             jobs = Applied.objects.filter(user=request.user)
@@ -147,4 +154,23 @@ def contact(request) :
     return render(request, 'main/contact.html')
 
 @login_required(redirect_field_name='login')
-def job_applied_detail(request, id)
+def job_applied_detail(request, id) :
+    job_application = get_object_or_404(Applied, id=id)
+    return render(request, 'main/applied-details.html', {'job':job_application, 'id': id})
+
+@login_required(redirect_field_name='login')
+def discard_application(request, id) :
+    obj = get_object_or_404(Applied, id=id)
+    if obj.user.email == request.user.email :
+        obj.delete()
+        messages.info(request, 'Job application deleted successfully!')
+        return redirect(reverse('applied'))
+    else :
+        return render(request, 'main/404.html')
+    
+@login_required(redirect_field_name='login')
+def permit(request) :
+    return render(request, 'main/work_permit.html')
+
+def home(request) :
+    return render(request, 'main/home.html')

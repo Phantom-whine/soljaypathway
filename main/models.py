@@ -63,3 +63,6 @@ class Applied(models.Model) :
 
     def __str__(self) :
         return self.job.title
+    
+    def get_absolute_url(self) :
+        return reverse('details-a', args=[self.id])

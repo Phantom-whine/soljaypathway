@@ -1,19 +1,28 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" x-data="{ dropdownOpen: false }">
+<html lang="en" x-data="{ dropdownOpen: false, showModal: false, imageSrc: '' , open: false }">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  {% block head %} {% endblock %}
   <style>
     ::-webkit-scrollbar {
       width: 12px;
       /* Width of the scrollbar */
       height: 12px;
       /* Height of the scrollbar (for horizontal) */
+    }
+
+    .fullscreen-img {
+      max-height: 90vh;
+      max-width: 90vw;
+      width: auto;
+      height: auto;
     }
 
     ::-webkit-scrollbar-track {
@@ -88,6 +97,30 @@
       height: 400px;
     }
 
+    .animate-btn {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Before pseudo-element for the arrow */
+    .animate-btn::before {
+      content: '\f054';
+      position: absolute;
+      right: -20px;
+      /* Start off the button */
+      opacity: 0;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    /* On hover, slide the arrow into view */
+    .animate-btn:hover::before {
+      right: 10px;
+      /* Move it inside the button */
+      opacity: 1;
+      /* Make it visible */
+    }
+
     @media screen and (max-width: 500px) {
       .image-box {
         width: 96%;
@@ -101,6 +134,7 @@
 </head>
 
 <body class="bg-gray-100">
+
   <!-- Navbar -->
   <nav class="bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -126,23 +160,56 @@
           <!-- Dropdown Menu -->
           <div x-show="dropdownOpen" @click.outside="dropdownOpen = false"
             class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2">
-            <a href="{% url 'dashboard' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Jobs</a>
+            <a href="{% url 'dashboard' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100"><i
+                class="fa-solid fa-briefcase" style="color: #000000;"></i>Jobs</a>
             <a href="{% url 'applied' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Applied Jobs</a>
-            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
             {% if request.user.is_staff %}
             <a href="{% url 'job-create' %}" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Create Job</a>
             {% endif %}
+            {% if request.user.is_authenticated %}
             <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-red-100">Logout</a>
+            {% else %}
+            <a href="{% url 'register' %}" class="block px-4 py-2 text-gray-800 hover:bg-red-100">Sign in</a>
+            <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:bg-red-100">Login</a>
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
   </nav>
+  <div class="flex flex-col items-center space-y-4 w-full mt-2">
+    {% for message in messages %}
+        <div x-data="{ open: true }" x-show="open" 
+            x-transition:enter="transition transform ease-out duration-300"
+            x-transition:enter-start="scale-75 opacity-0" 
+            x-transition:enter-end="scale-100 opacity-100"
+            x-transition:leave="transition ease-in duration-200" 
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0" 
+            class="max-w-sm w-full mx-4 p-4 rounded-lg shadow-md relative" 
+            :class="{
+                'bg-red-100 border border-red-400 text-red-700': '{{ message.tags }}' == 'error',
+                'bg-blue-100 border border-blue-400 text-blue-700': '{{ message.tags }}' == 'info',
+                'bg-green-100 border border-green-400 text-green-700': '{{ message.tags }}' == 'success'
+            }"
+            role="alert">
+            <div class="flex items-start">
+                <strong class="font-bold mr-2">{{ message.tags|capfirst }}!</strong>
+                <span class="block sm:inline">{{ message }}</span>
+            </div>
+            <button @click="open = false" 
+                    class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none">
+                &times;
+            </button>
+        </div>
+    {% endfor %}
+</div>
+
   {% block content %} {% endblock %}
   <!-- Footer -->
 
 
-  <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+  <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800 w-[97%]" style="margin-top: auto;">
     <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="/"
           class="hover:underline">SolJay™</a>. All Rights Reserved.
@@ -160,6 +227,8 @@
       </ul>
     </div>
   </footer>
+  
+  {% block script %} {% endblock %}
 </body>
 
 </html>

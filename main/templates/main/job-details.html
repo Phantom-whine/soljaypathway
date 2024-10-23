@@ -5,7 +5,7 @@
     <div class="relative rounded-lg mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
         <div class="flex flex-col md:flex-row overflow-hidden rounded-lg h-full">
             <!-- Image Box with responsive sizing -->
-            <div class="md:w-1/3 w-full h-full md:h-auto">
+            <div class="md:w-[40%] w-full h-full md:h-auto">
                 <img src="{{ job.thumbnail.url }}" alt="Job Image" class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
             </div>
     
@@ -19,7 +19,7 @@
                 <!-- Job Description -->
                 <div class="text-gray-700 mt-6">
                     <p class="text-base leading-relaxed">
-                        {{ job.description }}
+                        {{ job.description|safe }}
                     </p>
                 </div>
     
@@ -69,7 +69,7 @@
         </div>
         <div class="bg-gray-50 rounded-lg p-4 mt-6 shadow mb-2">
             <h3 class="text-lg font-semibold text-gray-800">Job Description</h3>
-            <p class="text-gray-700">{{ job.description }}</p>
+            <p class="text-gray-700">{{ job.description|safe }}</p>
         </div>
         <div class="bg-gray-50 rounded-lg p-4 mt-6 shadow">
             <h3 class="text-lg font-semibold text-gray-800">Letter to Applicant</h3>
