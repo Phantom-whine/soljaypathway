@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="{% static 'alpinejs/dist/cdn.min.js' %}" defer></script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   {% block head %} {% endblock %}
   <style>
     ::-webkit-scrollbar {
-      width: 12px;
+      width: 10px;
       /* Width of the scrollbar */
       height: 12px;
       /* Height of the scrollbar (for horizontal) */

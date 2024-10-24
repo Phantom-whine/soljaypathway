@@ -54,11 +54,21 @@
                     class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
                     placeholder="Describe children's age">
             </div>
-            <div>
+            <div>  
                 <label for="job_type" class="block text-sm font-semibold text-gray-700">Job Type</label>
-                <input type="text" id="job_type" name="job_type" required
-                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
-                    placeholder="R.g Nanny">
+                <select id="job_type" name="job_type" required
+                    class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500">
+                    <option value="" disabled selected>Select Job</option>
+                    <option value="Nanny">Nanny</option>
+                    <option value="Driver">Driver</option>
+                    <option value="Caregiver">Caregiver</option>
+                    <option value="Chief">Chief</option>
+                    <option value="Gardner">Gardner</option>
+                    <option value="Accountant">Accountant</option>
+                    <option value="Hotel Receptionist">Hotel Receptionist</option>
+                    <option value="Front desk attendant">Front desk attendant</option>
+                    <option value="Cleaner">Cleaner</option>
+                </select>
             </div>
             <div>
                 <label for="job_start" class="block text-sm font-semibold text-gray-700">Job Start Date</label>
@@ -79,7 +89,7 @@
                     placeholder="e.g. 9 AM - 5 PM">
             </div>
             <div>
-                <label for="salary" class="block text-sm font-semibold text-gray-700">Salary (USD)</label>
+                <label for="salary" class="block text-sm font-semibold text-gray-700">Salary (USD/Month)</label>
                 <input type="number" id="salary" name="salary" required
                     class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-500"
                     placeholder="Enter salary">

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.5/cdn.min.js" defer></script>
+    <script src="{% static 'alpinejs/dist/cdn.min.js' %}" defer></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -39,5 +39,8 @@
   </div>
     {% endif %}
     {% block content %} {% endblock %}
+    <!-- <script>
+        import 'alpinejs';
+    </script> -->
 </body>
 </html>

@@ -38,8 +38,7 @@
                     {% if request.user.is_staff %}
                     <p class="text-sm text-gray-600">Full Name: {{ job.last_name }} {{ job.first_name }}</p>
                     {% endif %}
-                    <p class="text-sm text-gray-600">Payed: <span class="text-blue-500">{% if jobs.payed %}Payed{% else
-                            %}Awaiting payement{% endif %}</span></p>
+                    <p class="text-sm text-gray-600">Payed: <span class="text-blue-500">{% if jobs.payed %}Payed{% else %}Awaiting payement{% endif %}</span></p>
                 </div>
             </div>
         </a>
