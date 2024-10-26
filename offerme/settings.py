@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-_zfd(d%j$h9^200&ma_p5z*buqc(3y^!#!_dr1br@_ds(z9jkv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -118,12 +118,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_files')
 
 SESSION_SAVE_EVERY_REQUEST = True
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dxybkeltx',
-    'API_KEY': '318156341523456',
-    'API_SECRET': 'NwrwmfRJl2n4-slTiVA3uHm4GJg',
-}
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': 'dxybkeltx',
+#     'API_KEY': '318156341523456',
+#     'API_SECRET': 'NwrwmfRJl2n4-slTiVA3uHm4GJg',
+# }
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'

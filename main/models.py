@@ -36,6 +36,7 @@ class Job(models.Model) :
                                 processors=[ResizeToFill(400, 400)],  # Resize to 100x100 pixels
                                 format='PNG',
                                 options={'quality': 90})
+    apply_price = models.PositiveIntegerField(default=0)
 
     class Meta :
         ordering = ['-created']

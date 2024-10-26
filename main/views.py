@@ -55,6 +55,7 @@ def job_create(request) :
         description = post_data.get('description')
         salary = post_data.get('salary')
         job_type = post_data.get('job_type')
+        apply_price = post_data.get('apply_price')
 
         new_job = Job.objects.create(
             image=image,
@@ -71,7 +72,8 @@ def job_create(request) :
             letter_to_applicant=letter_to_applicant,
             description=description,
             salary = salary,
-            job_type=job_type
+            job_type=job_type,
+            apply_price = apply_price
         )
 
         new_job.save()
