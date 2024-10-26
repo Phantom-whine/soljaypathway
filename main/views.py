@@ -174,3 +174,11 @@ def permit(request) :
 
 def home(request) :
     return render(request, 'main/home.html')
+
+@login_required(redirect_field_name='login')
+def delete_listing(request, id) :
+    obj = get_object_or_404(Job, id=id)
+    obj.delete()
+    
+    messages.info(request, 'Listing deleted succesfully!')
+    return redirect(reverse('dashboard'))
