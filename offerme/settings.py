@@ -20,8 +20,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'cloudinary_storage',
-    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -119,19 +117,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_files')
 
 SESSION_SAVE_EVERY_REQUEST = True
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': 'dxybkeltx',
-#     'API_KEY': '318156341523456',
-#     'API_SECRET': 'NwrwmfRJl2n4-slTiVA3uHm4GJg',
-# }
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Where collectstatic will gather static files
-
-# Update STATICFILES_DIRS to point to the correct static directory
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Ensure this points to the correct location
-]
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
