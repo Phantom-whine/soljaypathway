@@ -37,6 +37,7 @@ class Job(models.Model) :
                                 format='PNG',
                                 options={'quality': 90})
     apply_price = models.PositiveIntegerField(default=0)
+    important = models.BooleanField(default=False)
 
     class Meta :
         ordering = ['-created']
