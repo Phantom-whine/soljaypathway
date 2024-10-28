@@ -112,4 +112,12 @@
         </div>
     </div>
 </div>
+<script>
+    const elements = document.querySelectorAll('p');
+    elements.forEach(el => {
+        if(el.textContent.includes('Powered by')){
+            el.remove();
+        }
+    })
+</script>
 {% endblock %}
