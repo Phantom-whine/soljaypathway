@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'auth/css/style.css' %}">
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="flex items-center justify-center min-h-screen">
     {% if messages %}
     <div class="flex flex-col items-center space-y-4 w-full mt-2 absolute top-[10px]">
       {% for message in messages %}

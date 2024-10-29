@@ -133,7 +133,7 @@
   <title>{% block title %} {% endblock %}</title>
 </head>
 
-<body class="bg-gray-100">
+<body>
 
   <!-- Navbar -->
   <nav class="bg-white shadow-md">
@@ -177,7 +177,7 @@
       </div>
     </div>
   </nav>
-  <div class="flex flex-col items-center space-y-4 w-full mt-2">
+  <div class="flex flex-col items-center space-y-4 w-full mt-2 z-50">
     {% for message in messages %}
         <div x-data="{ open: true }" x-show="open" 
             x-transition:enter="transition transform ease-out duration-300"
@@ -186,7 +186,7 @@
             x-transition:leave="transition ease-in duration-200" 
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0" 
-            class="max-w-sm w-full mx-4 p-4 rounded-lg shadow-md relative" 
+            class="max-w-sm md:w-full w-[95%] mx-4 p-4 rounded-lg shadow-md absolute z-50" 
             :class="{
                 'bg-red-100 border border-red-400 text-red-700': '{{ message.tags }}' == 'error',
                 'bg-blue-100 border border-blue-400 text-blue-700': '{{ message.tags }}' == 'info',
@@ -198,7 +198,7 @@
                 <span class="block sm:inline">{{ message }}</span>
             </div>
             <button @click="open = false" 
-                    class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none">
+                    class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none text-xl font-bold">
                 &times;
             </button>
         </div>
@@ -209,7 +209,7 @@
   <!-- Footer -->
 
 
-  <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800 w-[97%]" style="margin-top: 80px;">
+  <footer class="bg-white rounded-lg shadow m-4 w-[94%] md:w-[97%]" style="margin-top: 80px;">
     <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="/"
           class="hover:underline">SolJay™</a>. All Rights Reserved.

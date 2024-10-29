@@ -4,7 +4,7 @@
  <!-- Job Details Card -->
  <div class="max-w-7xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
     <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-blue-600">
-        <h2 class="text-3xl font-bold text-gray-800">Job Title: {{ job.title }}</h2>
+        <h2 class="text-2xl font-bold text-gray-800">{{ job.title }}</h2>
         <p class="mt-2 text-gray-700">Location: <span class="font-semibold">{{ job.city }}, {{ job.country }}</span></p>
         <p class="mt-2 text-gray-700">Job Duration: <span class="font-semibold">{{ job.time_of_stay }}</span></p>
         <p class="mt-2 text-gray-700">Salary: <span class="font-semibold">{{ job.salary }} USD/month</span></p>
@@ -41,7 +41,7 @@
             </div>
             <div class="mb-4">
                 <label for="other-info" class="block text-gray-700">Additional Information</label>
-                <textarea id="other-info" name="other-info" rows="4" class="w-full border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                <textarea id="other-info" name="other-info" rows="4" class="w-full border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 relative top-4" required></textarea>
             </div>
             <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">Submit Application</button>
         </form>
