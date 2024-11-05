@@ -8,7 +8,7 @@
         <p class="mt-2 text-gray-700">Location: <span class="font-semibold">{{ job.city }}, {{ job.country }}</span></p>
         <p class="mt-2 text-gray-700">Job Duration: <span class="font-semibold">{{ job.time_of_stay }}</span></p>
         <p class="mt-2 text-gray-700">Salary: <span class="font-semibold">{{ job.salary }} USD/month</span></p>
-        <p class="mt-2 text-gray-700"><b>Description</b>: {{ job.description|safe }}.</p>
+        <p class="mt-2 text-gray-700"><b class="bg-blue-50 px-4 py-2 rounded-md font-bold">Description</b> <span>{{ job.description|safe }}</span></p>
     </div>
 </div>
 
