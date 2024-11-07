@@ -164,7 +164,7 @@ def job_applied_detail(request, id) :
 @login_required(redirect_field_name='login')
 def discard_application(request, id) :
     obj = get_object_or_404(Applied, id=id)
-    if obj.user.email == request.user.email :
+    if obj.user.email == request.user.email or request.user.is_staff:
         obj.delete()
         messages.info(request, 'Job application deleted successfully!')
         return redirect(reverse('applied'))
