@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib import messages
 from .decorators import check_payment
+from accounts.models import User
 
 @login_required(redirect_field_name='login')
 def dashboard_view(request) :
@@ -114,7 +115,7 @@ def apply(request, id) :
         new_application.save()
         # return redirect('https://soljay.lemonsqueezy.com/buy/256aa511-235a-42c0-8d58-ebe5ab6f1668')
         messages.success(request, 'Job application submitted!')
-        return redirect(reverse('applied'))
+        return redirect(reverse('details-a', args=[new_application.id]))
     else :
         if Applied.objects.filter(user=request.user, job=job) :
             return render(request, 'main/already.html')
@@ -184,3 +185,19 @@ def delete_listing(request, id) :
     
     messages.info(request, 'Listing deleted succesfully!')
     return redirect(reverse('dashboard'))
+
+def validate_permit_purchase(request) :
+    user = request.user
+    user.permit = True
+    user.save()
+    
+    messages.success(request, 'Permit Purchased successfully')
+    return render(request, 'main/permit.html')
+
+def validate_job_purchase(redirect, id) :
+    applied_obj = get_object_or_404(Applied, id=id)
+    applied_obj.payed = True
+    applied_obj.save()
+    
+    messages.success(request, 'Payment successfull')
+    return redirect(reverse('details-a' args=[applied_obj.id]))

@@ -14,4 +14,6 @@ urlpatterns = [
     path('discard-request/<uuid:id>', views.discard_application, name='delete-app'),
     path('aquire-permit/', views.permit, name='permit'),
     path('', views.home, name='home'),
+    path('validate/', views.validate_permit_purchase, name='validate-permit'),
+    path('job-purchased/<uuid:id>/', views.validate_job_purchase, name='job-purchase'),
 ]

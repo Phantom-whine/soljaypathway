@@ -63,10 +63,10 @@
                     </div>
                 </div>
 
-                {% if not payed %}
+                {% if not job.payed %}
                 <!-- Payment Section -->
                 <div class="mt-6">
-                    <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md mt-4 hover:bg-blue-700 transition duration-200">Proceed to Payment</button>
+                    <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md mt-4 hover:bg-blue-700 transition duration-200">Proceed to Payment {{ job.job.apply_price }}</button>
                 </div>
                 {% endif %}
                 <div class="mt-6">
@@ -114,4 +114,33 @@
         </button>
     </div>
 </div>
+{% endblock %}
+{% block script %}
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+<script>
+    function makePayment() {
+        FlutterwaveCheckout({
+            public_key: "FLWPUBK_TEST-2cc2244a5ea9e7ab711debb42de22f75-X",
+            tx_ref: `titanic-${Math.random()}`,
+            amount: parseInt('{{ job.job.apply_price }}'),
+            currency: "USD",
+            payment_options: "card, ussd",
+            redirect_url: "http://localhost:8000/job-purchased/{{job.id}}/",
+            meta: {
+                consumer_id: parseInt('{{ request.user.id }}'),
+                consumer_mac: "92a3-912ba-1192a",
+            },
+            customer: {
+                email: "{{ request.user.email }}",
+                name: "{{ request.user.username }}",
+            },
+            customizations: {
+                title: "SolJayPathway {{ job.job.title }}",
+                description: "Apply to land your dream JOB",
+                logo: "https://i.ibb.co/cwWgFJY/icon.png",
+            }
+        });
+    }
+</script>
 {% endblock %}
