@@ -2,6 +2,9 @@
 {% block title %} SolJay™ | {{ job.job.title }} {% endblock %}
 {% block content %}
 <!-- Main Container -->
+ {% if job.payed %}
+    <p class="text-center font-semibold text-xl bg-blue-50 py-2 relative top-[-5px]">Awaiting Review</p>
+ {% endif %}
 <div class="max-w-7xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
     <div class="bg-white shadow-md rounded-lg p-6">
 
@@ -24,7 +27,7 @@
             <div class="col-span-2">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6">Job Details</h2>
                 <div class="bg-blue-50 p-6 rounded-lg shadow-md mb-6">
-                    <h3 class="text-xl font-semibold text-blue-600">{{ job.job.job_type|title }} in {{ job.job.city }}, {{ job.job.country }}</h3>
+                    <h3 class="text-xl font-semibold text-blue-600">{{ job.job.title }} in {{ job.job.city }}, {{ job.job.country }}</h3>
                     <p class="text-gray-700 mt-2">{{ job.job.title }}</p>
                     <div class="flex flex-wrap mt-4">
                         <div class="w-full md:w-1/2">
@@ -41,6 +44,11 @@
                 <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500 mb-6">
                     <h3 class="text-red-600 font-semibold">Payment Required</h3>
                     <p class="text-gray-700 mt-2">You have not completed your payment for this job application. Please proceed to payment to finalize your application.</p>
+                </div>
+                {% else %}
+                <div class="bg-green-100 p-4 rounded-lg border-l-4 border-green-500 mb-6">
+                    <h3 class="text-green-600 font-semibold">Payment Made</h3>
+                    <p class="text-gray-700 mt-2">You havecompleted your payment for this job application. Your application will be reviewd and result will be sent VIA Email</p>
                 </div>
                 {% endif %}
 
@@ -65,8 +73,8 @@
 
                 {% if not job.payed %}
                 <!-- Payment Section -->
-                <div class="mt-6">
-                    <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md mt-4 hover:bg-blue-700 transition duration-200">Proceed to Payment {{ job.job.apply_price }}</button>
+                <div class="mt-6" onclick="makePayment()">
+                    <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md mt-4 hover:bg-blue-700 transition duration-200">Proceed to Payment ${{ job.job.apply_price }}</button>
                 </div>
                 {% endif %}
                 <div class="mt-6">
@@ -117,7 +125,7 @@
 {% endblock %}
 {% block script %}
 <script src="https://checkout.flutterwave.com/v3.js"></script>
-<script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+<!-- <script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script> -->
 <script>
     function makePayment() {
         FlutterwaveCheckout({
@@ -126,7 +134,7 @@
             amount: parseInt('{{ job.job.apply_price }}'),
             currency: "USD",
             payment_options: "card, ussd",
-            redirect_url: "http://localhost:8000/job-purchased/{{job.id}}/",
+            redirect_url: "https://soljaypathway.onrender.com/job-purchased/{{job.id}}/",
             meta: {
                 consumer_id: parseInt('{{ request.user.id }}'),
                 consumer_mac: "92a3-912ba-1192a",

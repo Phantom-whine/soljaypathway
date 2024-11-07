@@ -194,10 +194,10 @@ def validate_permit_purchase(request) :
     messages.success(request, 'Permit Purchased successfully')
     return render(request, 'main/permit.html')
 
-def validate_job_purchase(redirect, id) :
+def validate_job_purchase(request, id) :
     applied_obj = get_object_or_404(Applied, id=id)
     applied_obj.payed = True
     applied_obj.save()
     
     messages.success(request, 'Payment successfull')
-    return redirect(reverse('details-a' args=[applied_obj.id]))
+    return redirect(reverse('details-a', args=[applied_obj.id]))

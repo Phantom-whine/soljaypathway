@@ -27,7 +27,7 @@
 {% endblock %}
 {% block script %}
 <script src="https://checkout.flutterwave.com/v3.js"></script>
-<script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+<!-- <script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script> -->
 <script>
     function makePayment() {
         FlutterwaveCheckout({
@@ -36,7 +36,7 @@
             amount: 7.5,
             currency: "USD",
             payment_options: "card, ussd",
-            redirect_url: "http://localhost:8000/validate/",
+            redirect_url: "https://soljaypathway.onrender.com/validate/",
             meta: {
                 consumer_id: parseInt('{{ request.user.id }}'),
                 consumer_mac: "92a3-912ba-1192a",
