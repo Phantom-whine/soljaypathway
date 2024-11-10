@@ -15,7 +15,7 @@ def register_view(request) :
         country_of_choice = post_data.get('country-of-choice')
         phone = post_data.get('phone')
 
-        test_user = authenticate(request, email=email, password=password)
+        test_user = User.objects.filter(email=email).exists()
 
         if test_user :
             messages.error(request, f'Email {email} has already been used!')

@@ -36,7 +36,7 @@
             amount: 7.5,
             currency: "USD",
             payment_options: "card, ussd",
-            redirect_url: "https://soljaypathway.onrender.com/validate/",
+            redirect_url: "https://soljaypathway.onrender.com/validate/{{ request.user.id }}",
             meta: {
                 consumer_id: parseInt('{{ request.user.id }}'),
                 consumer_mac: "92a3-912ba-1192a",

@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import CustomManager
+import uuid
 
 class User(AbstractUser) :
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(max_length=254, unique=True)
     phone = models.CharField(max_length=250)
     country = models.CharField(max_length=250, null=True)

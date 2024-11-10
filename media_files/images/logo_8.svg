@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+    <defs>
+        <style>
+            @font-face {
+                font-family: 'FontAwesome';
+                src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2') format('woff2');
+            }
+        </style>
+    </defs>
+    <rect width="160" height="160" fill="rgb(13, 0, 255)" rx="37"/>
+    <text x="80" y="80" fill="white" font-family="FontAwesome" font-size="81px" 
+          text-anchor="middle" dominant-baseline="middle">&#xf6d5;</text>
+</svg>

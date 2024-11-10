@@ -113,7 +113,7 @@ def apply(request, id) :
         )
 
         new_application.save()
-        # return redirect('https://soljay.lemonsqueezy.com/buy/256aa511-235a-42c0-8d58-ebe5ab6f1668')
+        
         messages.success(request, 'Job application submitted!')
         return redirect(reverse('details-a', args=[new_application.id]))
     else :
@@ -186,8 +186,9 @@ def delete_listing(request, id) :
     messages.info(request, 'Listing deleted succesfully!')
     return redirect(reverse('dashboard'))
 
-def validate_permit_purchase(request) :
-    user = request.user
+@login_required(redirect_field_name='login')
+def validate_permit_purchase(request, id) :
+    user = get_object_or_404(User, id=id)
     user.permit = True
     user.save()
     

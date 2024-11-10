@@ -15,7 +15,7 @@ class Job(models.Model) :
         ('male', 'Male'),
         ('female', 'Female')
     )
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     title = models.CharField(max_length=250)
     image = models.ImageField(upload_to='images/')
     description = models.TextField()
@@ -49,7 +49,7 @@ class Job(models.Model) :
         return reverse('job-detail', args=[self.id])
 
 class Applied(models.Model) :
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.OneToOneField(Job, on_delete=models.CASCADE)
     payed = models.BooleanField(default=False)
